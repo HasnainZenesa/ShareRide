@@ -1,0 +1,19 @@
+﻿services:
+  db:
+    image: postgis/postgis:15-3.4
+    container_name: shareide_db
+    environment:
+      POSTGRES_USER: shareide
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: shareide
+    ports:
+      - "5434:5432"   # host:container
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shareide -d shareide"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  db_data:
